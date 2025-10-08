@@ -43,8 +43,14 @@ def main():
     """Command line entry point."""
     parser = argparse.ArgumentParser(description="MarketData - A powerful utility")
     parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose logging')
+    parser.add_argument('-m', '--mode', type=str, choices=['run', 'test'], default='run', help='Application mode')
+    
     args = parser.parse_args()
     
+    if args.mode == 'test':
+        # Add test logic here
+        print("Running in test mode")
+        
     app = MarketData(verbose=args.verbose)
     if not app.run():
         sys.exit(1)
