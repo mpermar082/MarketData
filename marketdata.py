@@ -47,6 +47,9 @@ def main():
     
     args = parser.parse_args()
     
+    # Configure logging based on verbosity in a separate function
+    configure_logging(args.verbose)
+    
     if args.mode == 'test':
         # Add test logic here
         print("Running in test mode")
@@ -54,6 +57,17 @@ def main():
     app = MarketData(verbose=args.verbose)
     if not app.run():
         sys.exit(1)
+
+def configure_logging(verbose: bool) -> None:
+    """Configure logging based on verbosity."""
+    logger = logging.getLogger(__name__)
+    level = logging.DEBUG if verbose else logging.INFO
+    logger.setLevel(level)
+    handler = logging.StreamHandler()
+    handler.setFormatter(logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    ))
+    logger.addHandler(handler)
 
 if __name__ == "__main__":
     main()
